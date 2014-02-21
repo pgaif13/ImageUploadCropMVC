@@ -1,0 +1,124 @@
+﻿@{
+    // Read defult values for cropped images from settings
+    // scale to half size
+    var prevw = Settings.AppSettings.previewwidth + "px";
+    var prevh = Settings.AppSettings.previewheight + "px"; 
+    // Deal with values posted back from the controller to refresh the UI
+    ViewBag.Title = "Tiff Photo Upload Prototype - MVC";   
+    var Image1W = prevw;
+    var Image1H = prevh;
+    var Image1src = "uploaded_images/raw/invalid.jpg";
+    var Imagename = "invalid.jpg";
+    var croppedpreviewLiteral = "";
+    var previewsrc = "uploaded_images/raw/invalid.jpg";
+    var displaypreview = "none";
+    var message = "";
+    var defaultfolder = "raw";
+    var uploadaction = "PassPhoto/UploadImage";
+    var cropaction = "PassPhoto/CropImage";
+    // message is OK clear otherwise leave it to display error message in UI 
+    if (ViewBag.Message!=null)
+    {        
+        message = ViewBag.Message;        
+        if (message.StartsWith("OK"))
+        {
+            message = "";            
+        }       
+    }
+    if (ViewBag.Height != null)
+    {
+        Image1H = ViewBag.Height;
+    }
+    if (ViewBag.Width != null)
+    {
+        Image1W = ViewBag.Width;
+    }
+    if (ViewBag.ImageUrl != null)
+    {
+        Image1src = ViewBag.ImageUrl;
+        previewsrc = ViewBag.ImageUrl;
+    }
+    if (ViewBag.ImageName != null)
+    {
+        Imagename = ViewBag.ImageName;
+    }
+    if (ViewBag.PreviewDisplay != null)
+    {
+        displaypreview = ViewBag.PreviewDisplay;
+        if (displaypreview=="normal"){
+            croppedpreviewLiteral = "Preview Image:";
+        }        
+    }
+    if (Image1src.ToLower().Contains("cropped"))
+    {
+        defaultfolder = "cropped";
+    }
+    if (ViewBag.rootPath != null)
+    {
+        Image1src = ViewBag.RootPath + Image1src;
+        previewsrc = ViewBag.RootPath + previewsrc;
+        uploadaction = ViewBag.RootPath + uploadaction;
+        cropaction = ViewBag.RootPath + cropaction;
+    }
+    
+}
+
+<div>
+    <h3>Proof of Concept - Online Image Cropping</h3>
+    Select an image using the "Browse..." button below and click the "Upload Image" when ready.
+    <br />
+    <span id="errorLiteral" style="font-size:14px; color:Red; font-weight:bold">        
+    @message
+    </span>
+    <br />
+    <form action="@uploadaction" method="post" enctype="multipart/form-data">
+        <input id="fileupload" name="mypostedfile" type="file" />
+        <input type="submit" id="uploadfileButton" value="Upload Image" />
+    </form>
+    <br />
+    <br />
+    <table>
+        <tr>
+            <td style="width:400px;">
+                <div id="imagenameLiteral">@Imagename</div>                
+                <br /><br />
+                <div>
+                    <img id="Image1" width="@Image1W" height="@Image1H" src="@Image1src" />
+                    <br />
+                </div>
+            </td>
+            <td style="width:400px;">
+                <div id="croppedpreviewLiteral">@croppedpreviewLiteral</div>
+                <div style="width:@prevw;height:@prevh;overflow:hidden;background-color:#ffffff;display:@displaypreview">
+                    <img id="preview" width="@prevw" height="@prevh" src="@previewsrc" />
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    <form action="@cropaction" method="post" enctype="multipart/form-data">
+
+        <input id="X1value" name="X" type="hidden" />
+        <input id="Y1value" name="Y" type="hidden" />
+        <input id="X2value" name="X2" type="hidden" />
+        <input id="Y2value" name="Y2" type="hidden" />
+        <input id="Wvalue" name="W" type="hidden" />
+        <input id="Hvalue" name="H" type="hidden" />
+        <input id="filename" name="filename" value="@Imagename" type="hidden" />
+        <input id="folder" name="folder" value="@defaultfolder" type="hidden" />
+
+        <div id="cropinstructions" style="width:400px">
+            Move or rearrange the selection tool inside the original image until the preview selection displays
+            an image that you want to keep. When ready click the crop button and your selection will be
+            saved permanently.<br /><br />
+            <input type="submit" id="cropimageButton" value="Crop Image" />
+        </div>
+
+    </form>
+</div>
+
+@section scripts{
+    <script lang="Javascript">
+       @Html.Raw(ViewBag.PreviewJSMarkup)
+    </script>
+}     
