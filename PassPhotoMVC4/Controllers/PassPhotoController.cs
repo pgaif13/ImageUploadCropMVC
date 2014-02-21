@@ -33,12 +33,9 @@ namespace PassPhotoMVC.Controllers
         {            
             String RootPath = Request.Path;
             ViewBag.RootPath = RootPath;
-            if (ViewBag.PreviewJSMarkup == null)
-            {
-                ViewBag.Height = prevh.ToString();
-                ViewBag.Width = prevw.ToString();
-                ViewBag.PreviewJSMarkup = myUtils.UpdatePreviewJs(prevw, prevh, jsFilePath);
-            }
+            ViewBag.Height = prevh.ToString();
+            ViewBag.Width = prevw.ToString();
+            ViewBag.PreviewJSMarkup = myUtils.UpdatePreviewJs(prevw, prevh, jsFilePath);            
             return View();
         }
 
