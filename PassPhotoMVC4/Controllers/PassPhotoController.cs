@@ -31,11 +31,13 @@ namespace PassPhotoMVC.Controllers
         /// <returns></returns>
         public ActionResult Index(String jsFilePath="")
         {            
+            
             String RootPath = Request.Path;
             ViewBag.RootPath = RootPath;
             ViewBag.Height = prevh.ToString();
             ViewBag.Width = prevw.ToString();
             ViewBag.PreviewJSMarkup = myUtils.UpdatePreviewJs(prevw, prevh, jsFilePath);            
+            
             return View();
         }
 
