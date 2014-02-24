@@ -42,6 +42,16 @@ namespace PassPhotoMVC.Controllers
         }
 
         /// <summary>
+        /// Redirects to start screen of UI if end user tries to call this action using GET
+        /// instead of POST
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult UploadImage()
+        {
+            return RedirectToAction("Index");
+        }
+
+        /// <summary>
         /// Handles uploading of files and resizing uploaded files to standard dimensions
         /// </summary>
         /// <param name="mypostedfile"></param>
@@ -90,6 +100,16 @@ namespace PassPhotoMVC.Controllers
                 ViewBag.Message = "Error - Invalid File - Uploaded file is null.";
             }
             return View("Index");              
+        }
+
+        /// <summary>
+        /// Redirects to start screen of UI if end user tries to call this action using GET
+        /// instead of POST
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult CropImage()
+        {
+            return RedirectToAction("Index");
         }
 
         /// <summary>

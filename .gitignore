@@ -157,3 +157,6 @@ $RECYCLE.BIN/
 
 # Application uploaded_files directory
 uploaded_images/
+
+# Application bin/Debug directory
+/bin/Debug/*
