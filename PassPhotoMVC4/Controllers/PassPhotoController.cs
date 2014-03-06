@@ -46,6 +46,7 @@ namespace PassPhotoMVC.Controllers
         /// instead of POST
         /// </summary>
         /// <returns></returns>
+        [HttpGet]
         public ActionResult UploadImage()
         {
             return RedirectToAction("Index");
@@ -93,7 +94,14 @@ namespace PassPhotoMVC.Controllers
                     ViewBag.PreviewDisplay = "normal";
                     int jsWidth = myUtils.CalculateResizedWidth(targetFilename, srcimgfolder, hminRaw);
                     ViewBag.PreviewJSMarkup = myUtils.UpdatePreviewJs(jsWidth, hminRaw, jsFilePath);
-                }                
+                }
+                else
+                {
+                    // return default values and display error message from operation result
+                    ViewBag.ImageName = targetFilename;
+                    ViewBag.Height = prevh.ToString();
+                    ViewBag.Width = prevw.ToString();
+                }
             }
             else
             {
@@ -107,6 +115,7 @@ namespace PassPhotoMVC.Controllers
         /// instead of POST
         /// </summary>
         /// <returns></returns>
+        [HttpGet]
         public ActionResult CropImage()
         {
             return RedirectToAction("Index");
